@@ -19,6 +19,9 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 private:
+	void AddIndices(int32 InStart);
+
+private:
 	UPROPERTY(VisibleDefaultsOnly)
 		class UProceduralMeshComponent* ProcMesh;
 
