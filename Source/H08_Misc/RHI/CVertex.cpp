@@ -130,9 +130,6 @@ void ACVertex::Tick(float DeltaTime)
 	}
 	
 	ProcMesh->UpdateMeshSection(0, Positions, Normals, UVs, Colors, TArray<FProcMeshTangent>());
-
-
-	//-> 2. 아마도.. 정점 단위에서 색변화가 있을 것 -> 면 단위로 바꾸려면?
 }
 
 void ACVertex::AddIndices(int32 InStart)
