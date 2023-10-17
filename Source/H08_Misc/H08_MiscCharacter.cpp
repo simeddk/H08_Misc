@@ -12,6 +12,7 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Materials/Material.h"
 #include "Engine/World.h"
+#include "H08_MiscPlayerController.h"
 
 AH08_MiscCharacter::AH08_MiscCharacter()
 {
@@ -78,7 +79,7 @@ void AH08_MiscCharacter::Tick(float DeltaSeconds)
 				CursorToWorld->SetWorldLocationAndRotation(HitResult.Location, SurfaceRotation);
 			}
 		}
-		else if (APlayerController* PC = Cast<APlayerController>(GetController()))
+		else if (AH08_MiscPlayerController* PC = Cast<AH08_MiscPlayerController>(GetController()))
 		{
 			FHitResult TraceHitResult;
 			PC->GetHitResultUnderCursor(ECC_Visibility, true, TraceHitResult);
@@ -86,6 +87,8 @@ void AH08_MiscCharacter::Tick(float DeltaSeconds)
 			FRotator CursorR = CursorFV.Rotation();
 			CursorToWorld->SetWorldLocation(TraceHitResult.Location);
 			CursorToWorld->SetWorldRotation(CursorR);
+
+			PC->SetCursorLocation(TraceHitResult.Location);
 		}
 	}
 }

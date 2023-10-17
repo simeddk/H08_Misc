@@ -38,6 +38,14 @@ protected:
 	/** Input handlers for SetDestination action. */
 	void OnSetDestinationPressed();
 	void OnSetDestinationReleased();
+
+	void OnSlice();
+
+public:
+	FORCEINLINE void SetCursorLocation(FVector InLocation) { CursorLocation = InLocation; }
+
+private:
+	FVector CursorLocation;
 };
 
 
