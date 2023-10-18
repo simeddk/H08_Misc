@@ -11,6 +11,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Materials/Material.h"
+#include "Materials/MaterialInstanceDynamic.h"
 #include "Engine/World.h"
 #include "H08_MiscPlayerController.h"
 
@@ -59,6 +60,14 @@ AH08_MiscCharacter::AH08_MiscCharacter()
 	PrimaryActorTick.bStartWithTickEnabled = true;
 }
 
+void AH08_MiscCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	DynamicMaterial = UMaterialInstanceDynamic::Create(GetMesh()->GetMaterial(0), nullptr);
+	GetMesh()->SetMaterial(0, DynamicMaterial);
+}
+
 void AH08_MiscCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
@@ -91,4 +100,10 @@ void AH08_MiscCharacter::Tick(float DeltaSeconds)
 			PC->SetCursorLocation(TraceHitResult.Location);
 		}
 	}
+
+	CheckNull(DynamicMaterial);
+	
+
+	DynamicMaterial->SetScalarParameterValue("Amount", GetVelocity().Size() * SmearLength);
+	DynamicMaterial->SetVectorParameterValue("Direction", -GetVelocity().GetSafeNormal());
 }
