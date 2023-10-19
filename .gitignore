@@ -6,6 +6,7 @@
 .vs/
 *.zip
 Content/Meadow_Environment_Set/*
+Content/InfinityBladeGrassLands/*
 WindowsNoEditor/*
 
 # Compiled Object files
