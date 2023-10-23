@@ -11,6 +11,7 @@ public:
 
 private:
 	void AddToolBar(class FToolBarBuilder& InToolBarBuilder);
+	void AddToolBar2(class FToolBarBuilder& InToolBarBuilder);
 
 private:
 	TSharedPtr<FExtender> Extender;
