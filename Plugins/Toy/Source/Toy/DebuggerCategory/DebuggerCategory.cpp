@@ -73,11 +73,14 @@ void FDebuggerCategory::DrawData(APlayerController* OwnerPC, FGameplayDebuggerCa
 	FGameplayDebuggerCategory::DrawData(OwnerPC, CanvasContext);
 
 	if (TextureAsset == nullptr)
-		TextureAsset = Cast<UTexture2D>(StaticLoadObject(UTexture2D::StaticClass(), nullptr, TEXT("Texture2D'/Toy/T_Background.T_Background'")));
+		TextureAsset = Cast<UTexture2D>(StaticLoadObject(UTexture2D::StaticClass(), nullptr, TEXT("Texture2D'/Game/Textures/T_Wood_Pine_D.T_Wood_Pine_D'")));
 
-	FCanvasTileItem item(FVector2D::ZeroVector, TextureAsset->Resource, FVector2D(320, 220), FLinearColor(1.f, 1.f, 1.f, 0.75f));
-	item.BlendMode = ESimpleElementBlendMode::SE_BLEND_AlphaBlend;
-	CanvasContext.DrawItem(item, CanvasContext.CursorX, CanvasContext.CursorY);
+	if (TextureAsset != nullptr)
+	{
+		FCanvasTileItem item(FVector2D::ZeroVector, TextureAsset->Resource, FVector2D(320, 220), FLinearColor(1.f, 1.f, 1.f, 0.75f));
+		item.BlendMode = ESimpleElementBlendMode::SE_BLEND_AlphaBlend;
+		CanvasContext.DrawItem(item, CanvasContext.CursorX, CanvasContext.CursorY);
+	}
 
 	CanvasContext.Printf(FColor::Green, L"  -----<Player>-----");
 	CanvasContext.Printf(FColor::White, L"  Name : %s", *PlayerData.Name);

@@ -10,4 +10,11 @@ public:
 
 public:
 	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) override;
+
+private:
+	FReply OnClicked_ShuffleMaterial();
+	FReply OnClicked_SaveMeshData();
+
+private:
+	TArray<TWeakObjectPtr<UObject>> Objects;
 };

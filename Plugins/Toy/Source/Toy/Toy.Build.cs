@@ -21,6 +21,10 @@ public class Toy : ModuleRules
 		PrivateDependencyModuleNames.Add("EditorStyle");
 		PrivateDependencyModuleNames.Add("Projects");
 		PrivateDependencyModuleNames.Add("GameplayDebugger");
+		PrivateDependencyModuleNames.Add("PropertyEditor");
+		PrivateDependencyModuleNames.Add("MainFrame");
+		PrivateDependencyModuleNames.Add("DesktopPlatform");
+
 		PrivateDependencyModuleNames.Add("H08_Misc");
 	}
 }

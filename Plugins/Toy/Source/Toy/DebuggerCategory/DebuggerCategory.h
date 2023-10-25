@@ -28,5 +28,5 @@ private:
 	FCollectionData ForwardActorData;
 	FCollectionData DebuggerActorData;
 
-	UTexture2D* TextureAsset;
+	UTexture2D* TextureAsset = nullptr;
 };
