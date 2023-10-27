@@ -5,6 +5,7 @@
 #include "Interfaces/IMainFrameModule.h"
 #include "DesktopPlatformModule.h"
 #include "Serialization/BufferArchive.h"
+#include "Misc/FileHelper.h"
 #include "StaticMeshes/CMeshActor.h"
 
 TSharedRef<class IDetailCustomization> FDetailExtends::MakeInstance()
@@ -148,7 +149,7 @@ FReply FDetailExtends::OnClicked_SaveMeshData()
 	indexBuffer.GetCopy(indices);
 	data.Indices.Insert((int32*)indices.GetData(), indexCount, 0);
 
-	// -> data struct to Binary File(HDD)
+	// -> data struct to Binary(*.bin) File(HDD)
 	FBufferArchive fileBuffer;
 	fileBuffer << data;
 
@@ -156,7 +157,7 @@ FReply FDetailExtends::OnClicked_SaveMeshData()
 	fileBuffer.FlushCache();
 	fileBuffer.Empty();
 
-	// -> data struct to PlaneText File(HDD)
+	// -> data struct to PlaneText(*.csv) File(HDD)
 	FString planeText;
 	for (int32 i = 0; i < data.Positions.Num(); i++)
 	{

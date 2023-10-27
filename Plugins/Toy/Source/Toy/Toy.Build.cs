@@ -24,6 +24,7 @@ public class Toy : ModuleRules
 		PrivateDependencyModuleNames.Add("PropertyEditor");
 		PrivateDependencyModuleNames.Add("MainFrame");
 		PrivateDependencyModuleNames.Add("DesktopPlatform");
+		PrivateDependencyModuleNames.Add("UnrealEd");
 
 		PrivateDependencyModuleNames.Add("H08_Misc");
 	}

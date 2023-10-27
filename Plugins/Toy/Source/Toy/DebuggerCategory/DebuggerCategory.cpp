@@ -1,5 +1,6 @@
 #include "DebuggerCategory.h"
 #include "CanvasItem.h"
+#include "GameFramework/PlayerController.h"
 
 TSharedRef<class FGameplayDebuggerCategory> FDebuggerCategory::MakeInstance()
 {
