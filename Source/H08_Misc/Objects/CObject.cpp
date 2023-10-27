@@ -1,0 +1,2 @@
+#include "CObject.h"
+

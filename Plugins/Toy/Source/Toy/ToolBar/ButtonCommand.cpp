@@ -7,6 +7,8 @@
 #include "LevelEditorViewport.h"
 #include "Misc/FileHelper.h"
 #include "StaticMeshes/CMeshActor_Loaded.h"
+#include "Viewer/MeshViewer.h"
+#include "Objects/CObject.h"
 
 FButtonCommand::FButtonCommand()
 	: TCommands("LoadMesh", FText::FromString("Load Mesh"), NAME_None, FEditorStyle::GetStyleSetName())
@@ -103,7 +105,12 @@ void FButtonCommand::OnClicked()
 
 	FHitResult hitResult;
 	editorWorld->LineTraceSingleByChannel(hitResult, start, end, ECollisionChannel::ECC_Visibility);
-	if (hitResult.bBlockingHit == false) return;
+	if (hitResult.bBlockingHit == false)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Out of range"));
+		return;
+	}
+	UE_LOG(LogTemp, Warning, TEXT("Spawn Succeed On %s"), *hitResult.ImpactPoint.ToString());
 
 	// -> Make Transform
 	FTransform transform;
@@ -111,11 +118,12 @@ void FButtonCommand::OnClicked()
 	FVector direction = hitResult.TraceEnd - hitResult.TraceStart;
 	direction.Normalize();
 
-	FVector location = hitResult.TraceStart + direction * (hitResult.Distance);
-	transform.SetLocation(location);
+	//FVector location = hitResult.TraceStart + direction * (hitResult.Distance);
+	transform.SetLocation(hitResult.ImpactPoint);
 
 	FRotator rotation = FRotator(0, direction.Rotation().Yaw, 0);
 	transform.SetRotation(FQuat(rotation));
+	transform.SetScale3D(FVector(0.5f));
 
 	// -> Spawn Deffered from data struct
 	ACMeshActor_Loaded* loadedActor = editorWorld->SpawnActorDeferred<ACMeshActor_Loaded>
@@ -140,5 +148,5 @@ void FButtonCommand::OnClicked()
 	
 void FButtonCommand::OnClicked2()
 {
-	UE_LOG(LogTemp, Error, TEXT("Open Viewer Button is Clicked"));
+	FMeshViewer::OpenWindow(NewObject<UCObject>());
 }

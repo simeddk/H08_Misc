@@ -152,7 +152,7 @@ void AH08_MiscPlayerController::OnSlice()
 
 	UProceduralMeshComponent* newProcMeshComp = nullptr;
 	UMaterialInstanceConstant* materialAsset;
-	CHelpers::GetAssetDynamic(&materialAsset, "MaterialInstanceConstant'/Game/Materials/Vertex/MAT_ViewSpace_Inst.MAT_ViewSpace_Inst'");
+	CHelpers::GetAssetDynamic(&materialAsset, "MaterialInstanceConstant'/Game/Materials/Surface/MAT_POM_Inst.MAT_POM_Inst'");
 
 	UKismetProceduralMeshLibrary::SliceProceduralMesh
 	(

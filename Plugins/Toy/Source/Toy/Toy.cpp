@@ -6,6 +6,7 @@
 #include "DebuggerCategory/DebuggerCategory.h"
 #include "DetailPanel/DetailExtends.h"
 #include "StaticMeshes/CMeshActor.h"
+#include "Viewer/MeshViewer.h"
 
 #define LOCTEXT_NAMESPACE "FToyModule"
 
@@ -63,6 +64,7 @@ void FToyModule::ShutdownModule()
 	if (IGameplayDebugger::IsAvailable())
 		IGameplayDebugger::Get().UnregisterCategory("AwesomeCategory");
 
+	FMeshViewer::Shutdown();
 	FIconStyleSet::Shutdown();
 }
 
