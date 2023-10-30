@@ -27,4 +27,6 @@ public:
 private:
 	static TSharedPtr<FMeshViewer> Instance;
 	
+private:
+	TSharedPtr<class SMeshViewer_Viewport> ViewportWidget;
 };

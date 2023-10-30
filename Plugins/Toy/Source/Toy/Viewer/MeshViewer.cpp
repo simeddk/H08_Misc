@@ -1,4 +1,5 @@
 #include "MeshViewer.h"
+#include "MeshViewer_Viewport.h"
 
 TSharedPtr<FMeshViewer> FMeshViewer::Instance = nullptr;
 const static FName ToolkitName = TEXT("MeshViewer");
@@ -28,6 +29,8 @@ void FMeshViewer::Shutdown()
 
 void FMeshViewer::Open_Internal(UObject* InAsset)
 {
+	ViewportWidget = SNew(SMeshViewer_Viewport);
+
 	TSharedRef<FTabManager::FLayout> layout = FTabManager::NewLayout("MeshViewer_Layout")
 		->AddArea
 		(
@@ -102,8 +105,7 @@ TSharedRef<SDockTab> FMeshViewer::Spawn_ViewportTab(const FSpawnTabArgs& InArgs)
 {
 	return SNew(SDockTab)
 		[
-			SNew(SButton)
-			.Text(FText::FromString("Test"))
+			ViewportWidget.ToSharedRef()
 		];
 }
 
