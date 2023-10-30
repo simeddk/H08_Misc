@@ -2,6 +2,9 @@
 
 TSharedPtr<FMeshViewer> FMeshViewer::Instance = nullptr;
 const static FName ToolkitName = TEXT("MeshViewer");
+const static FName ViewPortTabID = TEXT("Viewport");
+const static FName PreviewTabID = TEXT("Preview");
+const static FName DetailsTabID = TEXT("Details");
 
 void FMeshViewer::OpenWindow(UObject* InAsset)
 {
@@ -28,7 +31,51 @@ void FMeshViewer::Open_Internal(UObject* InAsset)
 	TSharedRef<FTabManager::FLayout> layout = FTabManager::NewLayout("MeshViewer_Layout")
 		->AddArea
 		(
-			FTabManager::NewPrimaryArea()
+			//Canvas
+			FTabManager::NewPrimaryArea()->SetOrientation(Orient_Vertical)
+
+			// -> ToolBar
+			->Split
+			(
+				FTabManager::NewStack()
+				->SetSizeCoefficient(0.1f)
+				->AddTab(GetToolbarTabId(), ETabState::OpenedTab)
+			)
+
+			// -> Panel
+			->Split
+			(
+				FTabManager::NewSplitter()->SetOrientation(Orient_Horizontal)
+				->SetSizeCoefficient(0.75f)
+
+				// ->-> Viewport
+				->Split
+				(
+					FTabManager::NewStack()
+					->AddTab(ViewPortTabID, ETabState::OpenedTab)
+				)
+
+				// ->-> Right Panel
+				->Split
+				(
+					// ->->-> Preview
+					FTabManager::NewSplitter()->SetOrientation(Orient_Vertical)
+					->SetSizeCoefficient(0.25f)
+					->Split
+					(
+						FTabManager::NewStack()
+						->AddTab(PreviewTabID, ETabState::OpenedTab)
+					)
+
+					// ->->-> Details
+					->Split
+					(
+						FTabManager::NewStack()
+						->AddTab(DetailsTabID, ETabState::OpenedTab)
+					)
+
+				) //End Right Panel
+			) //End Panel
 		);
 
 	FAssetEditorToolkit::InitAssetEditor
@@ -41,6 +88,23 @@ void FMeshViewer::Open_Internal(UObject* InAsset)
 		true,
 		InAsset
 	);
+}
+
+void FMeshViewer::RegisterTabSpawners(const TSharedRef<FTabManager>& InTabManager)
+{
+	FAssetEditorToolkit::RegisterTabSpawners(InTabManager);
+
+	FOnSpawnTab viewPortSpawnTab = FOnSpawnTab::CreateSP(this, &FMeshViewer::Spawn_ViewportTab);
+	TabManager->RegisterTabSpawner(ViewPortTabID, viewPortSpawnTab);
+}
+
+TSharedRef<SDockTab> FMeshViewer::Spawn_ViewportTab(const FSpawnTabArgs& InArgs)
+{
+	return SNew(SDockTab)
+		[
+			SNew(SButton)
+			.Text(FText::FromString("Test"))
+		];
 }
 
 FName FMeshViewer::GetToolkitFName() const

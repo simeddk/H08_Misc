@@ -13,6 +13,12 @@ private:
 	void Open_Internal(UObject* InAsset);
 
 public:
+	virtual void RegisterTabSpawners(const TSharedRef<FTabManager>& InTabManager) override;
+
+private:
+	TSharedRef<SDockTab> Spawn_ViewportTab(const FSpawnTabArgs& InArgs);
+
+public:
 	virtual FName GetToolkitFName() const override;
 	virtual FText GetBaseToolkitName() const override;
 	virtual FString GetWorldCentricTabPrefix() const override;
