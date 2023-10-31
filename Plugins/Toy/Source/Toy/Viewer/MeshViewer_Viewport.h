@@ -12,6 +12,7 @@ public:
 
 public:
 	virtual void AddReferencedObjects(FReferenceCollector& Collector) override;
+	TSharedRef<class FAdvancedPreviewScene> GetScene();
 
 protected:
 	virtual TSharedRef<FEditorViewportClient> MakeEditorViewportClient() override;

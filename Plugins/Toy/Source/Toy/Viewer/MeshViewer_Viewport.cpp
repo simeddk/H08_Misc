@@ -37,6 +37,11 @@ void SMeshViewer_Viewport::AddReferencedObjects(FReferenceCollector& Collector)
 	Collector.AddReferencedObject(FloorMesh);
 }
 
+TSharedRef<FAdvancedPreviewScene> SMeshViewer_Viewport::GetScene()
+{
+	return Scene.ToSharedRef();
+}
+
 TSharedRef<FEditorViewportClient> SMeshViewer_Viewport::MakeEditorViewportClient()
 {
 	ViewportClient = MakeShareable(new FMeshViewer_Viewport_Client(Scene.Get(), SharedThis(this)));

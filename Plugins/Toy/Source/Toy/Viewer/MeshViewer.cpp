@@ -1,5 +1,6 @@
 #include "MeshViewer.h"
 #include "MeshViewer_Viewport.h"
+#include "AdvancedPreviewSceneModule.h"
 
 TSharedPtr<FMeshViewer> FMeshViewer::Instance = nullptr;
 const static FName ToolkitName = TEXT("MeshViewer");
@@ -29,8 +30,20 @@ void FMeshViewer::Shutdown()
 
 void FMeshViewer::Open_Internal(UObject* InAsset)
 {
+	//Create ViewportWidget
 	ViewportWidget = SNew(SMeshViewer_Viewport);
 
+	//Create PreviewSceneSettingsWidget
+	FAdvancedPreviewSceneModule& scene = FModuleManager::LoadModuleChecked<FAdvancedPreviewSceneModule>("AdvancedPreviewScene");
+	PreviewSceneSettingsWidget = scene.CreateAdvancedPreviewSceneSettingsWidget(ViewportWidget->GetScene());
+
+	//Create DetailsViewWidget
+	FPropertyEditorModule& propertEditor = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
+	FDetailsViewArgs detailsViewArgs(true, true, true, FDetailsViewArgs::ObjectsUseNameArea);
+	DetailsViewWidget = propertEditor.CreateDetailView(detailsViewArgs);
+	DetailsViewWidget->SetObject(InAsset);
+
+	//Layout
 	TSharedRef<FTabManager::FLayout> layout = FTabManager::NewLayout("MeshViewer_Layout")
 		->AddArea
 		(
@@ -96,9 +109,18 @@ void FMeshViewer::Open_Internal(UObject* InAsset)
 void FMeshViewer::RegisterTabSpawners(const TSharedRef<FTabManager>& InTabManager)
 {
 	FAssetEditorToolkit::RegisterTabSpawners(InTabManager);
-
+	
+	//Viewport Attach to Layout
 	FOnSpawnTab viewPortSpawnTab = FOnSpawnTab::CreateSP(this, &FMeshViewer::Spawn_ViewportTab);
 	TabManager->RegisterTabSpawner(ViewPortTabID, viewPortSpawnTab);
+
+	//PreviewSceneSettsings Attach to Layout
+	FOnSpawnTab previewSceneSettingsSpawnTab = FOnSpawnTab::CreateSP(this, &FMeshViewer::Spawn_PreviewSettingsTab);
+	TabManager->RegisterTabSpawner(PreviewTabID, previewSceneSettingsSpawnTab);
+
+	//DetailsView Attach to Layout
+	FOnSpawnTab detailsViewSpawnTab = FOnSpawnTab::CreateSP(this, &FMeshViewer::Spawn_DetailsViewTab);
+	TabManager->RegisterTabSpawner(DetailsTabID, detailsViewSpawnTab);
 }
 
 TSharedRef<SDockTab> FMeshViewer::Spawn_ViewportTab(const FSpawnTabArgs& InArgs)
@@ -106,6 +128,22 @@ TSharedRef<SDockTab> FMeshViewer::Spawn_ViewportTab(const FSpawnTabArgs& InArgs)
 	return SNew(SDockTab)
 		[
 			ViewportWidget.ToSharedRef()
+		];
+}
+
+TSharedRef<SDockTab> FMeshViewer::Spawn_PreviewSettingsTab(const FSpawnTabArgs& InArgs)
+{
+	return SNew(SDockTab)
+		[
+			PreviewSceneSettingsWidget.ToSharedRef()
+		];
+}
+
+TSharedRef<SDockTab> FMeshViewer::Spawn_DetailsViewTab(const FSpawnTabArgs& InArgs)
+{
+	return SNew(SDockTab)
+		[
+			DetailsViewWidget.ToSharedRef()
 		];
 }
 

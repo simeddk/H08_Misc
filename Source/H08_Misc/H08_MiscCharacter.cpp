@@ -14,6 +14,7 @@
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Engine/World.h"
 #include "H08_MiscPlayerController.h"
+#include "AssetTools/CAsset.h"
 
 AH08_MiscCharacter::AH08_MiscCharacter()
 {
@@ -58,6 +59,18 @@ AH08_MiscCharacter::AH08_MiscCharacter()
 	// Activate ticking in order to update the cursor every frame.
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
+
+	UCAsset* myAsset;
+	CHelpers::GetAsset<UCAsset>(&myAsset, "CAsset'/Game/Blueprints/MyAsset_001.MyAsset_001'");
+
+	if (!!myAsset)
+	{
+		CLog::Print(myAsset->GetName(), -1, 5, FColor::Black);
+		CLog::Print("");
+		CLog::Print(myAsset->Name.ToString(), -1, 5, FColor::Red);
+		CLog::Print(myAsset->Mesh->GetName(), -1, 5, FColor::Green);
+		CLog::Print(myAsset->Anim->GetName(), -1, 5, FColor::Blue);
+	}
 }
 
 void AH08_MiscCharacter::BeginPlay()

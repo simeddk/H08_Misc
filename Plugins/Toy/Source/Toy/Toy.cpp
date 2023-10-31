@@ -1,12 +1,15 @@
 #include "Toy.h"
 #include "LevelEditor.h"
 #include "GameplayDebugger.h"
+#include "AssetToolsModule.h"
+#include "IAssetTypeActions.h"
 #include "ToolBar/ButtonCommand.h"
 #include "ToolBar/IconStyleSet.h"
 #include "DebuggerCategory/DebuggerCategory.h"
 #include "DetailPanel/DetailExtends.h"
 #include "StaticMeshes/CMeshActor.h"
 #include "Viewer/MeshViewer.h"
+#include "AssetTools/CAssetAction.h"
 
 #define LOCTEXT_NAMESPACE "FToyModule"
 
@@ -48,12 +51,22 @@ void FToyModule::StartupModule()
 
 	//DetailCustomization
 	{
-		FPropertyEditorModule& propertEditor = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
-		propertEditor.RegisterCustomClassLayout
+		FPropertyEditorModule& propertyEditor = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
+		propertyEditor.RegisterCustomClassLayout
 		(
 			ACMeshActor::StaticClass()->GetFName(),
 			FOnGetDetailCustomizationInstance::CreateStatic(&FDetailExtends::MakeInstance)
 		);
+	}
+
+	//AssetTool
+	{
+		IAssetTools& assetTools = FModuleManager::LoadModuleChecked<FAssetToolsModule>("AssetTools").Get();
+		//EAssetTypeCategories::Type category = EAssetTypeCategories::Misc;
+		EAssetTypeCategories::Type category = assetTools.RegisterAdvancedAssetCategory(NAME_None, FText::FromString("Awesome Category"));
+
+		AssetToolsAction = MakeShareable(new CAssetAction(category));
+		assetTools.RegisterAssetTypeActions(AssetToolsAction.ToSharedRef());
 	}
 }
 

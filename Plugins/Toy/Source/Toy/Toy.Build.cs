@@ -9,7 +9,8 @@ public class Toy : ModuleRules
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 		
 		//Header Dependency
-		PrivateIncludePaths.Add(ModuleDirectory);
+		//PrivateIncludePaths.Add(ModuleDirectory);
+		PublicIncludePaths.Add(ModuleDirectory);
 
 		//Binary Dependency
 		PublicDependencyModuleNames.Add("Core");
@@ -27,6 +28,7 @@ public class Toy : ModuleRules
 		PrivateDependencyModuleNames.Add("UnrealEd");
 		PrivateDependencyModuleNames.Add("AdvancedPreviewScene");
 		PrivateDependencyModuleNames.Add("InputCore");
+		PrivateDependencyModuleNames.Add("AssetTools");
 
 		PrivateDependencyModuleNames.Add("H08_Misc");
 	}

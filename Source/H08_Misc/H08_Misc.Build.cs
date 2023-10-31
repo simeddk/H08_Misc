@@ -18,7 +18,8 @@ public class H08_Misc : ModuleRules
 			"HeadMountedDisplay",
 			"NavigationSystem",
 			"AIModule",
-			"ProceduralMeshComponent" 
+			"ProceduralMeshComponent",
+			"Toy"
 		});
 	}
 }
