@@ -61,15 +61,20 @@ AH08_MiscCharacter::AH08_MiscCharacter()
 	PrimaryActorTick.bStartWithTickEnabled = true;
 
 	UCAsset* myAsset;
-	CHelpers::GetAsset<UCAsset>(&myAsset, "CAsset'/Game/Blueprints/MyAsset_001.MyAsset_001'");
+	CHelpers::GetAsset<UCAsset>(&myAsset, "CAsset'/Game/Blueprints/MyAsset_002.MyAsset_002'");
 
 	if (!!myAsset)
 	{
-		CLog::Print(myAsset->GetName(), -1, 5, FColor::Black);
-		CLog::Print("");
-		CLog::Print(myAsset->Name.ToString(), -1, 5, FColor::Red);
-		CLog::Print(myAsset->Mesh->GetName(), -1, 5, FColor::Green);
-		CLog::Print(myAsset->Anim->GetName(), -1, 5, FColor::Blue);
+		CLog::Log("-------------------------------");
+		CLog::Log(myAsset->GetName() + " is found");
+		CLog::Log("Asset::Name : " + myAsset->Name.ToString());
+		CLog::Log("Asset::Mesh : " + myAsset->Mesh->GetName());
+		CLog::Log("Asset:Anim : " + myAsset->Anim->GetName());
+		CLog::Log("-------------------------------");
+	}
+	else
+	{
+		CLog::Log("Asset Not Found");
 	}
 }
 
